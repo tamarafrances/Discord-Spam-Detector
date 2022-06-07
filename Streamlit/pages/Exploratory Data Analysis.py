@@ -15,6 +15,19 @@ df = df.rename(columns={'spam?':'spam'})
 
 #intro
 st.header('Exploratory Data Analysis')
+svns = px.bar(df['spam'].value_counts(), title='Count of Not Spam (N) and Spam (Y) in Dataset')
+svns.update_layout(showlegend=False)
+st.plotly_chart(svns, use_container_width=True)
+
+#most common words
+cv = CountVectorizer()
+df_cv = cv.fit_transform(df['text'])
+
+words = pd.DataFrame(df_cv.A, columns=cv.get_feature_names_out())
+wordcounts = pd.DataFrame(words.sum().sort_values(ascending=False).head(15))
+wc_common = px.bar(wordcounts, title='Most Common Words in Dataset')
+wc_common.update_layout(showlegend=False)
+st.plotly_chart(wc_common, use_container_width=True)
 
 #calculating the wordcount of the text
 wc = []
@@ -24,7 +37,7 @@ df['word_count'] = wc
 
 #histogram for word count
 st.subheader('Word Count')
-fig = px.histogram(df, x='word_count', color='spam', barmode='overlay', nbins=50)
+fig = px.histogram(df, x='word_count', color='spam', barmode='overlay', nbins=50, title='Word Count of Not Spam vs. Spam')
 st.plotly_chart(fig, use_container_width=True)
 
 #calculating the length of the text
@@ -36,7 +49,7 @@ df['text_length'] = length
 
 #histogram for text length
 st.subheader('Text Length')
-fig2 = px.histogram(df, x='text_length', color='spam', barmode='overlay', nbins=50)
+fig2 = px.histogram(df, x='text_length', color='spam', barmode='overlay', nbins=50, title = 'Text Length of Not Spam vs. Spam')
 st.plotly_chart(fig2, use_container_width=True)
 
 #spam vs not spam
@@ -49,7 +62,6 @@ col1, col2 = st.columns(2)
 
 with col1:
 #bigrams and trigrams - not spam
-    st.subheader('Not Spam')
     from nltk.corpus import stopwords
     stoplist = stopwords.words('english')
     c_vec = CountVectorizer(stop_words=stoplist, ngram_range=(2,3))
@@ -62,12 +74,11 @@ with col1:
     df_ngram_notspam = pd.DataFrame(sorted([(count_values[i],k) for k,i in vocab.items()], reverse=True)
                 ).rename(columns={0: 'frequency', 1:'bigram/trigram'})
 
-    fig3 = px.bar(df_ngram_notspam.head(10), x="frequency", y="bigram/trigram")
+    fig3 = px.bar(df_ngram_notspam.head(10), x="frequency", y="bigram/trigram", title='Not Spam')
     st.plotly_chart(fig3, use_container_width=True)
 
 with col2:
 #bigrams and trigrams - spam
-    st.subheader('Spam')
     from nltk.corpus import stopwords
     stoplist = stopwords.words('english')
     c_vec = CountVectorizer(stop_words=stoplist, ngram_range=(2,3))
@@ -80,5 +91,5 @@ with col2:
     df_ngram_spam = pd.DataFrame(sorted([(count_values[i],k) for k,i in vocab.items()], reverse=True)
                 ).rename(columns={0: 'frequency', 1:'bigram/trigram'})
 
-    fig4 = px.bar(df_ngram_spam.head(10), x="frequency", y="bigram/trigram")
+    fig4 = px.bar(df_ngram_spam.head(10), x="frequency", y="bigram/trigram", title='Spam')
     st.plotly_chart(fig4, use_container_width=True)
