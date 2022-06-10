@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
 
 
-df = pd.read_excel('./Data/data-for-capstone.xlsx')
+df = pd.read_excel('/Users/tamarafrances/Downloads/data-for-capstone.xlsx')
 df.columns = df.columns.str.lower()
 df = df.rename(columns={'spam?':'spam'})
 X = df['text']
