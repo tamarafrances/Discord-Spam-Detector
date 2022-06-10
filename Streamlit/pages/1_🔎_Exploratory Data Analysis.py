@@ -49,7 +49,7 @@ st.write("#")
 
 #most common words
 st.subheader('Most Common Words')
-cv = CountVectorizer()
+cv = CountVectorizer(stop_words='english')
 df_cv = cv.fit_transform(df['text'])
 
 words = pd.DataFrame(df_cv.A, columns=cv.get_feature_names_out())
