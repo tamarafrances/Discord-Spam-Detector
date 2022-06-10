@@ -23,7 +23,7 @@ According to Discord, spam generally comes from 3 areas:
 My goal was to create a classification model that determined whether or not a Discord message was spam in order to reduce user interaction with potentially malicious messages.
 
 ### Data Collection
-
+##### Data folder
 There is no easy way to pull messages sent through Discord from their website or app. Therefore, I manually copied and pasted around 1,000 messages from various Discord groups I am part of. I also manually categorized the messages into 'spam' or 'non-spam'.
 <br>
 
@@ -38,6 +38,7 @@ There is no easy way to pull messages sent through Discord from their website or
 <br>
 
 ### Exploratory Data Analysis
+##### EDA folder
 This dataset has about 1,000 messages and comes from various discord groups I am a part of. They’re generally focused on reselling items, like sneaker betting, investing in sports cards, sports betting, etc.
 - Around 86% of messages in the dataset were non-spam and 14% were spam
 - Most common words with stop words removed don’t reveal much information
@@ -54,6 +55,7 @@ The difference between bigrams and trigrams for non-spam and spam provided some 
 <br>
 
 ### Modeling
+##### Preprocessing and Modeling folder
 I created and finetuned three models: logistic regression, random forest classifier, and multinomial naive bayes. 
 
 All three models beat the baseline model’s accuracy score of 0.86. Ultimately, I chose Multinomial Naive Bayes as my best model. It edged out the other two models when it came to f1-score and had much better performance in another metric I was focused on, which was recall. I also tried some balancing techniques due to the class imbalance of the dataset I was using, but these techniques didn't surpass scores on the imbalanced data.
@@ -75,8 +77,15 @@ Logistic Regression (imbalanced data):
 - F-1 score: 0.6
 - Recall: 0.45
 
+<br>
+
+##### Evaluation folder
 In the "Evaluation" notebook, I took a look at the model's misclassifications to get a better sense of most common misclassified words and view the specific messages that were misclassified. It did not surprise me that most of the misclassified non-spam messages involved words related to NFTs and cryptocurrency since those topics were the focus of most of the spam messages in the dataset.
 
+<br>
+
+##### Streamlit folder
+I built a streamlit app to highlight some of the exploratory data analysis I conducted, the different models I tested and their respective success metric results, some of the code I used in this process, and the specific classifications that my best performing model got wrong. The front page also has a demo to show whether or not my model would flag a message as spam. The streamlit app can be found ([here](link)).
 <br>
 
 ---
